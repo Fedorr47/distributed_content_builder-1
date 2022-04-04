@@ -42,8 +42,11 @@ public:
 
     void Do(std::string result_dir) {
         auto file_path = std::filesystem::path(file_path_);
-        result_path_ = result_dir + "/" + file_path.filename().string();
-        std::string exec_command = executor_ + " " + file_path_ + " " + result_path_;
+        std::filesystem::path result_dir_path(result_dir);
+
+        result_dir_path += file_path;
+
+        std::string exec_command = executor_ + " " + file_path_ + " " + result_dir_path.string();
         std::system(exec_command.c_str());
     }
 

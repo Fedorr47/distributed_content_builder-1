@@ -8,6 +8,8 @@
 #ifndef ITask_h
 #define ITask_h
 
+#include <string>
+
 class ITask {
 public:
     enum class TaskStatus: char {

@@ -20,8 +20,6 @@ private:
     const std::string RED = "\033[31m";
     const std::string YELLOW = "\033[33m";
 public:
-    UnixLogger() {
-    }
     
     void PushMessage(LogLevel level, std::string msg) {
         std::string prefix;

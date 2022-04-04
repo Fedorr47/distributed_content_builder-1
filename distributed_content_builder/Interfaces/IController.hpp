@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "IContent.hpp"
-#include "IRemoteAgent.hpp"
+#include "Interfaces.hpp"
 #include "ILogger.hpp"
 #include "INetwork.hpp"
 
@@ -21,7 +21,7 @@ public:
     INetwork *network_;
     IHashManager *hash_manager_;
 public:
-    virtual std::vector<IRemoteAgent*> GetAvailableAgents() = 0;
+    virtual std::vector<IAgent*> GetAvailableAgents() = 0;
     virtual void BuildContent(IContent* content) = 0;
 };
 

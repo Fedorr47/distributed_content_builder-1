@@ -2,10 +2,12 @@
 // Created by Евгений Курятов on 10.03.2022.
 //
 
+#include <memory>
 #include <openssl/md5.h>
-#include <sys/stat.h>
 #include <stdio.h>
-#include <fcntl.h>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
 
 #include "HashManager.hpp"
 #include "HashList.hpp"
@@ -24,20 +26,27 @@ std::vector<std::string> HashManager::GetArtifactsFromHashlist(HashList* local_h
     return existing_files;
 }
 
-std::string HashManager::GenerateFileHash(std::string path){
+std::string HashManager::GenerateFileHash(std::string path) 
+{
     unsigned char result[MD5_DIGEST_LENGTH];
-    int file_descript;
-    unsigned long file_size;
-    void* file_buffer;
 
-    file_descript = open(path.c_str(), O_RDONLY);
-    if(file_descript < 0) exit(-1);
+    std::filesystem::path path_file(path);
+    std::ifstream file_stream(path_file, std::ios_base::binary);
+    if (!file_stream.is_open())
+    {
+        exit(-1);
+    }
 
-    struct stat statbuf;
-    if(fstat(file_descript, &statbuf) < 0) exit(-1);
-    file_size = statbuf.st_size;
+    size_t file_buffer_size = std::filesystem::file_size(path_file);
+    if (!file_buffer_size)
+    {
+        exit(-1);
+    }
+    
+    std::vector<char> file_buffer(file_buffer_size);
+    file_stream.read(file_buffer.data(), file_buffer_size);
 
-    MD5((unsigned char*) file_buffer, file_size, result);
+    MD5((unsigned char*)file_buffer.data(), file_buffer_size, result);
 
     return StringFromBuffer(result);
 }

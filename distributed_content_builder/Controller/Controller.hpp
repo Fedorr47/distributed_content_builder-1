@@ -18,9 +18,9 @@ public:
 public:
     Controller(ILogger *logger, INetwork* network, IHashManager* hash_manager);
     
-    std::vector<IRemoteAgent*> GetAvailableAgents();
+    std::vector<IAgent*> GetAvailableAgents();
     
-    bool AssignTask(IRemoteAgent* agent);
+    bool AssignTask(IAgent* agent);
     bool AllTasksComplete();
     
     void BuildContent(IContent* content);

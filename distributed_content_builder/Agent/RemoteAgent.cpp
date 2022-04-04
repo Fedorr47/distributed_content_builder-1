@@ -6,7 +6,6 @@
 //
 
 #include <iostream>
-#include <unistd.h>
 #include <thread>
 #include <time.h>
 #include <cstdlib>
@@ -18,14 +17,14 @@
 #include "UnixLogger.hpp"
 #include "HashList.hpp"
 
-RemoteAgent::RemoteAgent(int id, std::string base_dir) {
+RemoteAgent::RemoteAgent(int id, std::string base_dir) 
+{
     id_ = id;
     state_ = AgentStatus::STATE_AVAILABLE;
     base_directory_ = std::filesystem::absolute(base_dir).string() + "/RemoteAgent" + std::to_string(id);
     std::string dir_struct_to_create = base_directory_ + "/ready";
     std::filesystem::create_directories(dir_struct_to_create);
 
-    // TODO: use IHashManager and ILogger
     logger_ = new UnixLogger();
     hash_manager_ = new HashManager(logger_);
 }

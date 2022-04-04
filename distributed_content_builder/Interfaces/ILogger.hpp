@@ -8,12 +8,20 @@
 #ifndef ILogger_h
 #define ILogger_h
 
+#include <string>
+
 class ILogger {
 public:
     enum LogLevel {
-        Debug, Info, Success, Warning, Error
+        Debug,
+        Info, 
+        Success,
+        Warning,
+        Error
     };
-public:
+
+    ILogger() = default;
+
     virtual ~ILogger() {};
     
     virtual void PushMessage(LogLevel level, std::string msg) = 0;

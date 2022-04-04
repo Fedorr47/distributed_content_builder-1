@@ -6,7 +6,6 @@
 //
 
 #include <vector>
-#include <unistd.h>
 #include <chrono>
 #include <thread>
 
@@ -20,22 +19,20 @@ Controller::Controller(ILogger *logger, INetwork *network, IHashManager *hash_ma
     hash_manager_ = hash_manager;
 };
 
-std::vector<IRemoteAgent*> Controller::GetAvailableAgents() {
+std::vector<IAgent*> Controller::GetAvailableAgents() {
     return network_->GetAvailableAgents();
 };
 
 void Controller::BuildContent(IContent* content) {
-    std::vector<IRemoteAgent*> agent_list = GetAvailableAgents();
+    std::vector<IAgent*> agent_list = GetAvailableAgents();
     task_list_ = content->GetTasks();
 
     // TODO: Move to UpdateTaskListWithExistsng
     std::vector<std::string> content_hashes;
-    for (auto* task :  task_list_){
-        content_hashes.push_back(hash_manager_->GenerateFileHash(task->file_path_));
-    }
-
     logger_->LogDebug("[Controller]: Content hashes: ");
-    for (auto hash: content_hashes) {
+    for (auto* task : task_list_) {
+        std::string hash = hash_manager_->GenerateFileHash(task->file_path_);
+        content_hashes.push_back(hash);
         logger_->LogDebug(hash.c_str());
     }
 
@@ -63,7 +60,7 @@ void Controller::BuildContent(IContent* content) {
 
     while (!AllTasksComplete()) {
         for (int i = 0; i < agent_list.size(); i++) {
-            IRemoteAgent* agent = agent_list[i];
+            IRemoteAgent* agent = static_cast<IRemoteAgent*>(agent_list[i]);
             IRemoteAgent::AgentStatus status = network_->CheckAgentStatus(agent);
             switch ( status )
             {
@@ -87,7 +84,7 @@ void Controller::BuildContent(IContent* content) {
 //    return build_time;
 }
 
-bool Controller::AssignTask(IRemoteAgent* agent){
+bool Controller::AssignTask(IAgent* agent){
     ITask* task;
     bool task_assigned = false;
     for(int i = 0; i < task_list_.size(); i++) {

@@ -23,7 +23,7 @@ std::vector<ITask*> Content::GetTasks(){
     std::string path = content_path_;
 
     logger_->LogDebug("[Content]: List of textures to build: ");
-    for (const auto & entry : fs::directory_iterator(path))
+    for (const std::filesystem::directory_entry & entry : fs::directory_iterator(path))
         if (entry.path().extension() == ".json") {
             rapidjson::Document json_data;
             std::ifstream json_file(entry.path());

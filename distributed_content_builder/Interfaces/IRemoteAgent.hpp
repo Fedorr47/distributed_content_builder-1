@@ -9,20 +9,12 @@
 #define IRemoteAgent_h
 
 #include "ITask.hpp"
-#include "ILogger.hpp"
-#include "IHashManager.hpp"
+#include "Interfaces.hpp"
 
-class IRemoteAgent {
+class IRemoteAgent : public IAgent {
 public:
-    enum class AgentStatus: char {
-        STATE_AVAILABLE, STATE_BUSY, STATE_OFFLINE, STATE_TASK_COMPLETE
-    };
-public:
-    AgentStatus state_;
-    int id_;
-    ILogger* logger_;
-    IHashManager* hash_manager_;
-public:
+    IRemoteAgent() : IAgent() {};
+    virtual ~IRemoteAgent() {}
     virtual void DoTask(ITask* job) = 0;
     virtual std::vector<std::string> CheckHashes(std::vector<std::string> hashes) = 0;
 };

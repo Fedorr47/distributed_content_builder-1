@@ -21,7 +21,7 @@ public:
     DebugControllerDecorator(IController* controller)
     : controller_(controller) {}
     
-    std::vector<IRemoteAgent*> GetAvailableAgents() {
+    std::vector<IAgent*> GetAvailableAgents() {
         return controller_->GetAvailableAgents();
     }
     

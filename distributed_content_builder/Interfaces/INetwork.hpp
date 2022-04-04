@@ -8,15 +8,15 @@
 #ifndef INetwork_h
 #define INetwork_h
 
-#include "IRemoteAgent.hpp"
+#include "Interfaces.hpp"
 
 class INetwork {
 public:
-    virtual std::vector<IRemoteAgent*> GetAvailableAgents() = 0;
-    virtual bool SendTaskToRemoteAgent(IRemoteAgent *target_agent, ITask *task) = 0;
-    virtual IRemoteAgent::AgentStatus CheckAgentStatus(IRemoteAgent *target_agent) = 0;
-    virtual void CollectTaskResult(IRemoteAgent *target_agent) = 0;
-    virtual std::vector<std::string> CollectExistingFiles(std::vector<std::string> content_hashes, std::vector<IRemoteAgent*> agents) = 0;
+    virtual std::vector<IAgent*> GetAvailableAgents() = 0;
+    virtual bool SendTaskToRemoteAgent(IAgent*target_agent, ITask *task) = 0;
+    virtual IAgent::AgentStatus CheckAgentStatus(IAgent*target_agent) = 0;
+    virtual void CollectTaskResult(IAgent*target_agent) = 0;
+    virtual std::vector<std::string> CollectExistingFiles(std::vector<std::string> content_hashes, std::vector<IAgent*> agents) = 0;
 };
 
 #endif /* INetwork_h */

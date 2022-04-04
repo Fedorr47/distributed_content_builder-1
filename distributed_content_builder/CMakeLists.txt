@@ -33,10 +33,10 @@ include_directories(./Task/)
 include_directories(./HashList/)
 include_directories(./HashManager/)
 
-set(OPENSSL_ROOT_DIR "/usr/local/opt/openssl")
+set(OPENSSL_ROOT_DIR "D:/OpenSSL")
 #set(OPENSSL_CRYPTO_LIBRARY "/usr/local/opt/openssl/lib")
-add_compile_options("-L /usr/local/opt/openssl/lib")
-set(OPENSSL_INCLUDE_DIR "/usr/local/opt/openssl/include")
+add_compile_options("-L D:/OpenSSL/lib")
+set(OPENSSL_INCLUDE_DIR "D:/OpenSSL/include")
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 find_package(OpenSSL REQUIRED)
 

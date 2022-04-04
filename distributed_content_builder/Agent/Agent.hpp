@@ -9,28 +9,28 @@
 #define Agent_hpp
 
 #include <stdio.h>
+#include <memory>
+
+#include "ILogger.hpp"
 #include "Interfaces.hpp"
-#include "MacLogger.hpp"
 
 class Queue;
 class TaskCompress;
 
-class Agent: public IAgent {
-public:
-    MacLogger *logger_;
+class Agent: public IAgent {  
     AgentStatus state_;
     int identity_;
     int count_;
+    std::unique_ptr<ILogger> logger_;
 public:
-    Agent(int id, int count);
+    Agent(int id, int count, char LoggerType = 'M');
     
     void DoTask(ITask* job);
-    Agent* GetAllAgents(); // Not implemented !!!
-    Agent* GetAvailableAgents();
+    std::vector<IAgent*> GetAvailableAgents() override;
     double BuildContent(int content_size);
     
 private:
-    Agent* GenerateAgents(int count);
+    std::vector<IAgent*> Agent::GenerateAgents(int count);
 };
 
 #endif /* Agent_hpp */
